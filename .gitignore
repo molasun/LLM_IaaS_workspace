@@ -3,6 +3,7 @@
 *.tfstate.*
 *.tfvars
 .terraform/
+*.hcl
 
 # Python / cache
 __pycache__/
