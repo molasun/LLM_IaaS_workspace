@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: qwen3-9b
+  namespace: llm-model
+spec:
+  to:
+    kind: Service
+    name: qwen3-9b
+    weight: 100
+  port:
+    targetPort: http-qwen3-9b
+  wildcardPolicy: None

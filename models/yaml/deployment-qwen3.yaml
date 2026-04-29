@@ -1,0 +1,85 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: llm-model
+  labels:
+    app: qwen3-9b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qwen3-9b
+  template:
+    metadata:
+      labels:
+        app: qwen3-9b
+    spec:
+      volumes:
+        - name: cache-volume
+          persistentVolumeClaim:
+            claimName: qwen3-9b
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 2Gi
+      containers:
+        - resources:
+            limits:
+              cpu: "10"
+              memory: 30G
+              nvidia.com/gpu: "1"
+            requests:
+              cpu: "2"
+              memory: 6G
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: qwen3-9b
+          command:
+            - /bin/sh
+            - "-c"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: HOME
+              value: /vllm
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /vllm
+            - name: shm
+              mountPath: /dev/shm
+          terminationMessagePolicy: File
+          image: "vllm/vllm-openai:latest"
+          args:
+            - vllm serve Qwen/Qwen3-8B --enable-auto-tool-choice --tool-call-parser hermes
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%

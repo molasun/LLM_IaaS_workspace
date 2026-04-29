@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: qwen3-9b
+  namespace: llm-model
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: http-qwen3-9b
+      protocol: TCP
+      port: 80
+      targetPort: 8000
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: qwen3-9b
