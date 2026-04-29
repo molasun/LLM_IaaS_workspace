@@ -1,0 +1,21 @@
+# Terraform state & secrets
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+
+# Python / cache
+__pycache__/
+*.pyc
+.env
+
+# Sensitive logs or temp files
+*.log
+*.tmp
+
+# OS meta
+.DS_Store
+Thumbs.db
+
+# Any local env configs
+bootstrap/**/terraform.tfstate*
