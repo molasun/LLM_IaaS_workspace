@@ -6,9 +6,16 @@
 .terraform.lock.hcl
 
 # Python / cache
+.gradio/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.pycache/
 __pycache__/
-*.pyc
-.env
+.*cache/
+.*venv/
+.venv/
+venv/
 
 # Sensitive logs or temp files
 *.log
