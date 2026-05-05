@@ -29,7 +29,7 @@ resource "aws_instance" "llm_server" {
     EOF
   ) : file("files/setup-${var.os_version}.sh")
   
-  user_data_replace_on_change = true
+  user_data_replace_on_change = false
 
   count                  = var.counts # 執行個體數量
 

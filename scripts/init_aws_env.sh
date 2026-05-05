@@ -11,7 +11,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# 打印帶顏色的消息
+# 打印消息
 print_info() {
     echo -e "${GREEN}[INFO]${NC} $1"
 }
@@ -75,7 +75,7 @@ cat "$PUB_KEY_PATH"
 echo "======================"
 echo ""
 
-# 2. 处理 AWS ID/jey
+# 2. 處理 AWS ID/key
 print_info "配置 AWS 憑證..."
 
 # 導出當前會話環境變量

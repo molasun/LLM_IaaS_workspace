@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "ray-cluster"
+    http_sd_configs:
+      - url: "http://172.31.29.110:8265/api/prometheus/sd"
+        refresh_interval: 30s

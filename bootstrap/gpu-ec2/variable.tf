@@ -23,7 +23,7 @@ variable "os_version" {
 # m5.2xlarge - 8/32
 variable "instance_type" {
   type    = string
-  default = "g6.2xlarge"
+  default = "g6.8xlarge"
 }
 
 variable "ssh_public_key" {
@@ -40,7 +40,7 @@ variable "region" {
 
 variable "counts" {
   type    = number
-  default = 1
+  default = 2
 }
 
 variable "volume" {

@@ -1,4 +1,5 @@
 import gradio as gr
+import os
 from openai import OpenAI
 import base64
 import io
@@ -7,19 +8,24 @@ import re
 from PIL import Image as PILImage
 
 # 1. 連接到 vLLM 服務
+VLLM_BASE_URL = os.getenv("VLLM_BASE_URL", "http://example.com:8000/v1")
+VLLM_API_KEY = os.getenv("VLLM_API_KEY", "EMPTY")
+TEXT_BASED_MODEL_NAME = "RedHatAI/Qwen3-8B-FP8-dynamic"
+MULTIMODAL_MODEL_NAME = "RedHatAI/gemma-3-12b-it-FP8-dynamic"
+
 client = OpenAI(
-    api_key="EMPTY",
-    base_url="http://example.com:8000/v1"
+    api_key=VLLM_API_KEY,
+    base_url=VLLM_BASE_URL
 )
 
 # 模型配置
 MODELS = {
     "純文字模型": {
-        "name": "RedHatAI/Qwen3-8B-FP8-dynamic",
+        "name": TEXT_BASED_MODEL_NAME,
         "is_multimodal": False
     },
     "多模態模型": {
-        "name": "RedHatAI/gemma-3-12b-it-FP8-dynamic",
+        "name": MULTIMODAL_MODEL_NAME,
         "is_multimodal": True
     }
 }
@@ -130,7 +136,7 @@ def predict(message, history, selected_model, uploaded_image=None, image_url=Non
         yield error_msg
 
 # 取得 vLLM 社區 Logo（使用線上範例圖片）
-VLLM_LOGO_URL = "https://docs.vllm.ai/en/latest/assets/logos/vllm-logo-text-dark.png"
+VLLM_LOGO_URL = "https://docs.vllm.ai/en/latest/assets/logos/vllm-logo-text-light.png "
 
 def process_with_thinking(message, history, model, uploaded_image, image_url):
     """處理回應，移除 think 標籤並顯示思考提示（保留流式效果）"""
