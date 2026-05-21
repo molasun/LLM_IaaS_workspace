@@ -4,7 +4,7 @@ FROM registry.access.redhat.com/ubi9/python-312:latest
 WORKDIR /app
 
 # switch to root user
-USER appuser
+USER root
 
 # set environment variables
 ENV PYTHONUNBUFFERED=1 \
